@@ -4,13 +4,16 @@
 #include <stdlib.h>
 #include "arvv.h"
 
+#define N_MAX 122
+
 struct arvvar {
 	char info;
+	int arquivo;
 	struct arvvar* prim; /* ponteiro para eventual primeiro filho */
-	struct arvvar* prox; /* ponteiro para eventual irmão */
+	struct arvvar* prox; /* ponteiro para eventual irmï¿½o */
 };
 
-/* Função cria
+/* Funï¿½ï¿½o cria
 ** Cria uma folha isolada para guardar um caractere e retorna seu ponteiro
 */
 ArvVar* arvv_cria (char c) {
@@ -21,16 +24,16 @@ ArvVar* arvv_cria (char c) {
 	return a;
 }
 
-/* Função insere
-** Insere um nó pré-existente na (sub)árvore 'a'
+/* Funï¿½ï¿½o insere
+** Insere um nï¿½ prï¿½-existente na (sub)ï¿½rvore 'a'
 */
 void arvv_insere (ArvVar* a, ArvVar* sa) {
 	sa->prox = a->prim;
 	a->prim = sa;
 }
 
-/* Função imprime
-** Percorre a árvore, imprimindo sua estrutura, seguindo a formatação textual
+/* Funï¿½ï¿½o imprime
+** Percorre a ï¿½rvore, imprimindo sua estrutura, seguindo a formataï¿½ï¿½o textual
 */
 void arvv_imprime (ArvVar* a) {
 	ArvVar* p;
@@ -40,8 +43,8 @@ void arvv_imprime (ArvVar* a) {
 	printf(">");
 }
 
-/* Função pertence
-** Percorre a árvore, buscando um valor. Retorna um inteiro (lógico) indicando se encontrou ou não
+/* Funï¿½ï¿½o pertence
+** Percorre a ï¿½rvore, buscando um valor. Retorna um inteiro (lï¿½gico) indicando se encontrou ou nï¿½o
 */
 int arvv_pertence (ArvVar* a, char c) {
 	ArvVar* p;
@@ -57,8 +60,8 @@ int arvv_pertence (ArvVar* a, char c) {
 }
 
 
-/* Função libera
-** Libera a memória alocada para a árvore, nó a nó
+/* Funï¿½ï¿½o libera
+** Libera a memï¿½ria alocada para a ï¿½rvore, nï¿½ a nï¿½
 */
 void arvv_libera (ArvVar* a) {
 	ArvVar* p = a->prim;
@@ -69,7 +72,3 @@ void arvv_libera (ArvVar* a) {
 	}
 	free(a);
 }
-
-
-
-
