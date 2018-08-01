@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "arvv.h"
 
 #define N_CHAR 122
 
@@ -8,17 +9,17 @@ int read_cmd (char* cmd, int max);
 void print_dir (char* dir, char* user);
 
 int main (void) {
-    
+
     char cmd[N_CHAR];
     char user[N_CHAR] = "claudio";
     char dir[N_CHAR] = "/";
-    
+
     int retVal;
-    
+
     // loop principal
     do {
         print_dir (dir, user);
-        retVal = read_cmd (cmd, N_CHAR); 
+        retVal = read_cmd (cmd, N_CHAR);
         switch (retVal) {
             case 0:
                 // cd ();
@@ -45,9 +46,9 @@ int main (void) {
                 break;
             default:
                 printf ("\rComando não encontrado\n");
-        }    
+        }
     } while (retVal != 5);
-    
+
     return 0;
 }
 
@@ -55,9 +56,9 @@ int read_cmd (char* cmd, int max) {
     fflush (stdin);
     fgets (cmd, max, stdin);
     cmd[strlen(cmd)-1] = '\0';
-    
+
     int retVal = -1;
-    
+
     if (!strcmp (cmd, "cd"))
         retVal = 0;
     else if (!strcmp (cmd, "mkdir"))
@@ -70,7 +71,7 @@ int read_cmd (char* cmd, int max) {
         retVal = 4;
     else if (!strcmp (cmd, "exit"))
         retVal = 5;
-    
+
     return retVal;
 }
 
