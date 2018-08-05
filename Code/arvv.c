@@ -10,6 +10,7 @@
 struct arvvar {
 	char info[N_MAX];
 	int arquivo;
+	struct arvvar* parent; // Ponteiro para o diretorio anterior
 	struct arvvar* prim; /* ponteiro para eventual primeiro filho */
 	struct arvvar* prox; /* ponteiro para eventual irm�o */
 };
@@ -23,6 +24,7 @@ ArvVar* arvv_cria (char* c, int arquivo) {
 	a->prim = NULL;
 	a->prox = NULL;
 	a->arquivo = arquivo;
+	a->parent = NULL;
 	return a;
 }
 
@@ -30,6 +32,7 @@ ArvVar* arvv_cria (char* c, int arquivo) {
 ** Insere um n� pr�-existente na (sub)�rvore 'a'
 */
 void arvv_insere (ArvVar* a, ArvVar* sa) {
+	sa->parent = a;
 	sa->prox = a->prim;
 	a->prim = sa;
 }
@@ -73,4 +76,24 @@ void arvv_libera (ArvVar* a) {
 		p = t;
 	}
 	free(a);
+}
+
+ArvVar* arv_parent(ArvVar* a){
+	return a->parent;
+}
+
+char* arv_info(ArvVar* a){
+	return a->info;
+}
+
+ArvVar* arv_subdiretorio(ArvVar* a, char* c){
+
+	ArvVar* aux;
+	for(aux = a->prim;aux != NULL;aux = aux->prox){
+		if(!strcmp(aux->info, c) && !aux->arquivo){
+			return aux;
+		}
+	}
+
+	return NULL;
 }

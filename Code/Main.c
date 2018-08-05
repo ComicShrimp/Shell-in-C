@@ -7,8 +7,11 @@
 #define ARQ 1
 #define DIR 0
 
+char* argumento(char* c, int ini);
 int read_cmd (char* cmd, int max);
 void print_dir (char* dir, char* user);
+
+char ax[N_CHAR];
 
 int main (void) {
 
@@ -19,9 +22,10 @@ int main (void) {
 
     ArvVar* auxi;
 
-    int retVal, i, j;
+    int retVal;
 
     ArvVar* atual = arvv_cria(dir, DIR);
+    ArvVar* parent = arv_parent(atual);
 
     // loop principal
     do {
@@ -30,8 +34,35 @@ int main (void) {
         switch (retVal) {
             case 0:
                 // cd ();
-                printf ("Funcao ainda nao implementada\n");
+
+                if(strlen(cmd) < 4){
+                    printf("Esse comando deve receber arguementos\n");
+                    break;
+                }
+
+                strcpy(aux, argumento(cmd, 3));
+
+                if(!strcmp(aux, "..")){
+                    if(parent == NULL){
+                        printf("Voce ja esta no diretorio raiz\n");
+                    }else{
+                        atual = parent;
+                        parent = arv_parent(atual);
+                    }
+                }else{
+                    auxi = arv_subdiretorio(atual, aux);
+                    if(auxi == NULL){
+                        printf("Diretorio não existe.\n");
+                    }else{
+                        atual = auxi;
+                        parent = arv_parent(atual);
+                    }
+                }
+
+                strcpy(dir, arv_info(atual));
+
                 break;
+
             case 1:
                 // mkdir ();
                 //Tentar implementar igual ao linux onde cada barra é um
@@ -41,11 +72,7 @@ int main (void) {
                     break;
                 }
 
-                j = 0;
-                for(i = 6;i < strlen(cmd);i++){
-                    aux[j] = cmd[i];
-                    j++;
-                }
+                strcpy(aux, argumento(cmd, 6));
 
                 auxi = arvv_cria(aux, DIR);
                 arvv_insere(atual, auxi);
@@ -60,11 +87,7 @@ int main (void) {
                     break;
                 }
 
-                j = 0;
-                for(i = 6;i < strlen(cmd);i++){
-                    aux[j] = cmd[i];
-                    j++;
-                }
+                strcpy(aux, argumento(cmd, 6));
 
                 auxi = arvv_cria(aux, ARQ);
                 arvv_insere(atual, auxi);
@@ -126,4 +149,16 @@ int read_cmd (char* cmd, int max) {
 
 void print_dir (char* dir, char* user) {
     printf ("%s %s$ ", dir, user);
+}
+
+char* argumento(char* c, int ini){
+    int j = 0;
+    int i;
+
+    for(i = ini;i < strlen(c);i++){
+        ax[j] = c[i];
+        j++;
+    }
+
+    return ax;
 }
