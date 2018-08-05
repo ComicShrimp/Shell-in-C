@@ -4,17 +4,22 @@
 #include "arvv.h"
 
 #define N_CHAR 122
+#define ARQ 1
+#define DIR 0
 
 int read_cmd (char* cmd, int max);
 void print_dir (char* dir, char* user);
 
 int main (void) {
 
+    char aux[N_CHAR];
     char cmd[N_CHAR];
     char user[N_CHAR] = "claudio";
     char dir[N_CHAR] = "/";
 
-    int retVal;
+    int retVal, i, j;
+
+    ArvVar* fs = arvv_cria("/", DIR);
 
     // loop principal
     do {
@@ -30,9 +35,19 @@ int main (void) {
                 printf ("Funcao ainda nao implementada\n");
                 break;
             case 2:
-                // touch ();
-                printf ("Funcao ainda nao implementada\n");
+                // touch ()
+                j = 0;
+                for(i = 6;i < strlen(cmd);i++){
+                    aux[j] = cmd[i];
+                    j++;
+                }
+
+                ArvVar* auxi = arvv_cria(aux, ARQ);
+                arvv_insere(fs, auxi);
+
+                printf ("Arquivo Criado.\n");
                 break;
+
             case 3:
                 // tree ();
                 printf ("Funcao ainda nao implementada\n");
@@ -57,19 +72,29 @@ int read_cmd (char* cmd, int max) {
     fgets (cmd, max, stdin);
     cmd[strlen(cmd)-1] = '\0';
 
+    char comando[6];
+
+    int i;
+    for(i = 0;i < strlen(cmd);i++){
+      comando[i] = cmd[i];
+      if(cmd[i + 1] == ' '){
+          break;
+      }
+    }
+
     int retVal = -1;
 
-    if (!strcmp (cmd, "cd"))
+    if (!strcmp (comando, "cd"))
         retVal = 0;
-    else if (!strcmp (cmd, "mkdir"))
+    else if (!strcmp (comando, "mkdir"))
         retVal = 1;
-    else if (!strcmp (cmd, "tree"))
+    else if (!strcmp (comando, "touch"))
         retVal = 2;
-    else if (!strcmp (cmd, "touch"))
+    else if (!strcmp (comando, "tree"))
         retVal = 3;
-    else if (!strcmp (cmd, "pwd"))
+    else if (!strcmp (comando, "pwd"))
         retVal = 4;
-    else if (!strcmp (cmd, "exit"))
+    else if (!strcmp (comando, "exit"))
         retVal = 5;
 
     return retVal;

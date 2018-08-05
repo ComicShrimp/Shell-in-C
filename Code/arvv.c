@@ -17,11 +17,12 @@ struct arvvar {
 /* Fun��o cria
 ** Cria uma folha isolada para guardar um caractere e retorna seu ponteiro
 */
-ArvVar* arvv_cria (char c) {
+ArvVar* arvv_cria (char* c, int arquivo) {
 	ArvVar *a = (ArvVar*) malloc(sizeof(ArvVar));
-	a->info = c;
+	strcpy(a->info, c);
 	a->prim = NULL;
 	a->prox = NULL;
+	a->arquivo = arquivo;
 	return a;
 }
 
@@ -49,7 +50,7 @@ void arvv_imprime (ArvVar* a) {
 */
 int arvv_pertence (ArvVar* a, char* c) {
 	ArvVar* p;
-	if (strcmp(a->info, c))
+	if (!strcmp(a->info, c))
 		return 1;
 	else {
 		for (p = a->prim; p != NULL; p = p->prox) {

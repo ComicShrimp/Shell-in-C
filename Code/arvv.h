@@ -5,7 +5,7 @@
 typedef struct arvvar ArvVar;
 
 /* Fun��es */
-ArvVar* arvv_cria (char c);
+ArvVar* arvv_cria (char* c, int arquivo);
 
 void arvv_insere (ArvVar* a, ArvVar* sa);
 
