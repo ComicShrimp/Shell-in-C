@@ -17,9 +17,11 @@ int main (void) {
     char user[N_CHAR] = "claudio";
     char dir[N_CHAR] = "/";
 
+    ArvVar* auxi;
+
     int retVal, i, j;
 
-    ArvVar* fs = arvv_cria("/", DIR);
+    ArvVar* atual = arvv_cria(dir, DIR);
 
     // loop principal
     do {
@@ -32,18 +34,40 @@ int main (void) {
                 break;
             case 1:
                 // mkdir ();
-                printf ("Funcao ainda nao implementada\n");
-                break;
-            case 2:
-                // touch ()
+                //Tentar implementar igual ao linux onde cada barra é um
+                //subdiretorio
+                if(strlen(cmd) < 7){
+                    printf("Esse comando deve receber arguementos\n");
+                    break;
+                }
+
                 j = 0;
                 for(i = 6;i < strlen(cmd);i++){
                     aux[j] = cmd[i];
                     j++;
                 }
 
-                ArvVar* auxi = arvv_cria(aux, ARQ);
-                arvv_insere(fs, auxi);
+                auxi = arvv_cria(aux, DIR);
+                arvv_insere(atual, auxi);
+
+                printf ("Diretorio Criado\n");
+                break;
+
+            case 2:
+                // touch ()
+                if(strlen(cmd) < 7){
+                    printf("Esse comando deve receber arguementos\n");
+                    break;
+                }
+
+                j = 0;
+                for(i = 6;i < strlen(cmd);i++){
+                    aux[j] = cmd[i];
+                    j++;
+                }
+
+                auxi = arvv_cria(aux, ARQ);
+                arvv_insere(atual, auxi);
 
                 printf ("Arquivo Criado.\n");
                 break;
