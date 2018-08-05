@@ -3,11 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "arvv.h"
+#include <string.h>
 
 #define N_MAX 122
 
 struct arvvar {
-	char info;
+	char info[N_MAX];
 	int arquivo;
 	struct arvvar* prim; /* ponteiro para eventual primeiro filho */
 	struct arvvar* prox; /* ponteiro para eventual irm�o */
@@ -37,7 +38,7 @@ void arvv_insere (ArvVar* a, ArvVar* sa) {
 */
 void arvv_imprime (ArvVar* a) {
 	ArvVar* p;
-	printf(" <%c",a->info);
+	printf(" <%s",a->info);
 	for (p = a->prim; p != NULL; p = p->prox)
 		arvv_imprime(p);
 	printf(">");
@@ -46,9 +47,9 @@ void arvv_imprime (ArvVar* a) {
 /* Fun��o pertence
 ** Percorre a �rvore, buscando um valor. Retorna um inteiro (l�gico) indicando se encontrou ou n�o
 */
-int arvv_pertence (ArvVar* a, char c) {
+int arvv_pertence (ArvVar* a, char* c) {
 	ArvVar* p;
-	if (a->info == c)
+	if (strcmp(a->info, c))
 		return 1;
 	else {
 		for (p = a->prim; p != NULL; p = p->prox) {
