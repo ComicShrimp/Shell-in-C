@@ -9,7 +9,7 @@
 
 struct arvvar {
 	char info[N_MAX];
-	int arquivo;
+	int arquivo, nivel;
 	struct arvvar* parent; // Ponteiro para o diretorio anterior
 	struct arvvar* prim; /* ponteiro para eventual primeiro filho */
 	struct arvvar* prox; /* ponteiro para eventual irm�o */
@@ -18,13 +18,14 @@ struct arvvar {
 /* Fun��o cria
 ** Cria uma folha isolada para guardar um caractere e retorna seu ponteiro
 */
-ArvVar* arvv_cria (char* c, int arquivo) {
+ArvVar* arvv_cria (char* c, int arquivo, int nivel) {
 	ArvVar *a = (ArvVar*) malloc(sizeof(ArvVar));
 	strcpy(a->info, c);
 	a->prim = NULL;
 	a->prox = NULL;
 	a->arquivo = arquivo;
 	a->parent = NULL;
+	a->nivel = nivel;
 	return a;
 }
 
@@ -100,8 +101,15 @@ ArvVar* arv_subdiretorio(ArvVar* a, char* c){
 
 void arvv_tree(ArvVar* a){
 	ArvVar* p;
-	printf(" <%s",a->info);
-	for (p = a->prim; p != NULL; p = p->prox)
-		arvv_imprime(p);
-	printf(">");
+
+	int i = 0;
+	for(i = 0;i < a->nivel;i++){
+		printf("-");
+	}
+
+	printf("%s",a->info);
+	printf("\n");
+	for(p = a->prim; p != NULL; p = p->prox){
+		arvv_tree(p);
+	}
 }

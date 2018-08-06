@@ -25,9 +25,12 @@ int main (void) {
     ArvVar* auxi;
 
     int retVal;
+    int nivel = 0;
 
-    ArvVar* atual = arvv_cria(dir, DIR);
+    ArvVar* atual = arvv_cria(dir, DIR, nivel);
     ArvVar* parent = arv_parent(atual);
+
+    ArvVar* raiz = atual;
 
     // loop principal
     do {
@@ -56,6 +59,8 @@ int main (void) {
                         parent = arv_parent(atual);
 
                         tira_pwd(pwd);
+
+                        nivel--;
                     }
                 }else{
                     auxi = arv_subdiretorio(atual, aux);
@@ -67,6 +72,8 @@ int main (void) {
 
                         strcat(pwd, "/");
                         strcat(pwd, arv_info(atual));
+
+                        nivel++;
                     }
                 }
 
@@ -85,7 +92,7 @@ int main (void) {
 
                 strcpy(aux, argumento(cmd, 6));
 
-                auxi = arvv_cria(aux, DIR);
+                auxi = arvv_cria(aux, DIR, nivel + 1);
                 arvv_insere(atual, auxi);
 
                 break;
@@ -99,15 +106,14 @@ int main (void) {
 
                 strcpy(aux, argumento(cmd, 6));
 
-                auxi = arvv_cria(aux, ARQ);
+                auxi = arvv_cria(aux, ARQ, nivel + 1);
                 arvv_insere(atual, auxi);
 
-                printf ("Arquivo Criado.\n");
                 break;
 
             case 3:
                 // tree ();
-                printf ("Funcao ainda nao implementada\n");
+                arvv_tree(raiz);
                 break;
             case 4:
                 // pwd ();
