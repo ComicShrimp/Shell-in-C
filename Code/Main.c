@@ -29,6 +29,9 @@ int main (void) {
 
     // loop principal
     do {
+        memset(ax, 0, sizeof(ax));
+        memset(aux, 0, sizeof(aux));
+
         print_dir (dir, user);
         retVal = read_cmd (cmd, N_CHAR);
         switch (retVal) {
@@ -77,7 +80,6 @@ int main (void) {
                 auxi = arvv_cria(aux, DIR);
                 arvv_insere(atual, auxi);
 
-                printf ("Diretorio Criado\n");
                 break;
 
             case 2:
@@ -123,9 +125,13 @@ int read_cmd (char* cmd, int max) {
 
     int i;
     for(i = 0;i < strlen(cmd);i++){
-      comando[i] = cmd[i];
-      if(cmd[i + 1] == ' '){
+      if(cmd[i] == ' '){
           break;
+      }else if(cmd[3] == '.' && cmd[4] == '.'){
+          strcpy(comando, "cd");
+          break;
+      }else{
+          comando[i] = cmd[i];
       }
     }
 
