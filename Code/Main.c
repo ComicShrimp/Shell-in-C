@@ -7,6 +7,7 @@
 #define ARQ 1
 #define DIR 0
 
+char* tira_pwd(char* c);
 char* argumento(char* c, int ini);
 int read_cmd (char* cmd, int max);
 void print_dir (char* dir, char* user);
@@ -15,6 +16,7 @@ char ax[N_CHAR];
 
 int main (void) {
 
+    char pwd[N_CHAR * 5];
     char aux[N_CHAR];
     char cmd[N_CHAR];
     char user[N_CHAR] = "claudio";
@@ -31,6 +33,7 @@ int main (void) {
     do {
         memset(ax, 0, sizeof(ax));
         memset(aux, 0, sizeof(aux));
+        memset(cmd, 0, sizeof(cmd));
 
         print_dir (dir, user);
         retVal = read_cmd (cmd, N_CHAR);
@@ -51,6 +54,8 @@ int main (void) {
                     }else{
                         atual = parent;
                         parent = arv_parent(atual);
+
+                        tira_pwd(pwd);
                     }
                 }else{
                     auxi = arv_subdiretorio(atual, aux);
@@ -59,6 +64,9 @@ int main (void) {
                     }else{
                         atual = auxi;
                         parent = arv_parent(atual);
+
+                        strcat(pwd, "/");
+                        strcat(pwd, arv_info(atual));
                     }
                 }
 
@@ -103,8 +111,15 @@ int main (void) {
                 break;
             case 4:
                 // pwd ();
-                printf ("Funcao ainda nao implementada\n");
+
+                if(strlen(pwd) == 0){
+                    printf("/\n");
+                }else{
+                    printf("%s\n", pwd);
+                }
+
                 break;
+
             case 5:
                 // exit ();
                 break;
@@ -117,13 +132,15 @@ int main (void) {
 }
 
 int read_cmd (char* cmd, int max) {
+
+    int i;
+
     fflush (stdin);
     fgets (cmd, max, stdin);
     cmd[strlen(cmd)-1] = '\0';
 
-    char comando[6];
+    char comando[6] = "";
 
-    int i;
     for(i = 0;i < strlen(cmd);i++){
       if(cmd[i] == ' '){
           break;
@@ -167,4 +184,12 @@ char* argumento(char* c, int ini){
     }
 
     return ax;
+}
+
+char* tira_pwd(char* c){
+    int i;
+    for(i = strlen(c) - 1;c[i] != '/';i--);
+    c[i] = '\0';
+
+    return c;
 }

@@ -97,3 +97,11 @@ ArvVar* arv_subdiretorio(ArvVar* a, char* c){
 
 	return NULL;
 }
+
+void arvv_tree(ArvVar* a){
+	ArvVar* p;
+	printf(" <%s",a->info);
+	for (p = a->prim; p != NULL; p = p->prox)
+		arvv_imprime(p);
+	printf(">");
+}

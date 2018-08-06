@@ -20,3 +20,5 @@ ArvVar* arv_parent(ArvVar* a);
 char* arv_info(ArvVar* a);
 
 ArvVar* arv_subdiretorio(ArvVar* a, char* c);
+
+void arvv_tree(ArvVar* a);
