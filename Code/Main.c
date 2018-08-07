@@ -1,3 +1,7 @@
+// Discentes: Mário Victor, Mateus Fonseca
+// Eng. Comp 2017
+//Repositório: https://bitbucket.org/ComicShrimp77/desenvolviemento_shell/src
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
